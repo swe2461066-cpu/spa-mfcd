@@ -1,0 +1,27 @@
+{
+  "name": "spa-mfcd",
+  "version": "1.0.0",
+  "description": "Mongolian Food Composition Database - Single Page Application (2.6-2.9 туршилт)",
+  "main": "src/js/app.js",
+  "scripts": {
+    "sass": "sass --watch src/scss/main.scss src/css/main.css",
+    "sass:build": "sass src/scss/main.scss src/css/main.css --no-source-map",
+    "generate:images": "node src/tools/generate-images-json.mjs",
+    "convert:enmn": "node ./src/tools/convertNutritionsEnMn.js",
+    "unique": "node ./src/tools/searchUniqueField.js",
+    "start": "npx --yes http-server src -p 5500 -c-1"
+  },
+  "keywords": [
+    "spa",
+    "nutrition",
+    "food composition",
+    "bulma"
+  ],
+  "author": "swe2461066",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "bulma": "^1.0.4",
+    "sass": "^1.108.2"
+  }
+}

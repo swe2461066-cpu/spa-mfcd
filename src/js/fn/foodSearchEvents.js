@@ -148,3 +148,40 @@ function setResultHtml(html) {
 export function renderDefaultTables(data) {
   return renderNutritionTables(data.slice(0, DEFAULT_ITEM_COUNT), DEFAULT_TYPES);
 }
+
+/* 2.10.14 — Тойм хуудасны газрын зургаас сонгосон хүнснүүдийг (sessionStorage) уншиж,
+   Хайлт хуудасны checkbox-уудыг автоматаар сонгоод үр дүнг харуулна. */
+export function applyPendingSelectedFoodsFromOverview() {
+  const raw = sessionStorage.getItem("pendingSelectedFoods");
+  if (!raw) return;
+  sessionStorage.removeItem("pendingSelectedFoods");
+
+  let selectedFoods = [];
+  try {
+    selectedFoods = JSON.parse(raw);
+  } catch (error) {
+    console.error("Invalid pendingSelectedFoods:", error);
+    return;
+  }
+  if (!Array.isArray(selectedFoods) || !selectedFoods.length) return;
+
+  const searchTxt = document.getElementById("searchTxt");
+  if (searchTxt) searchTxt.value = "";
+
+  document.querySelectorAll('input[name="foodcode"]').forEach((checkbox) => {
+    checkbox.checked = false;
+  });
+
+  selectedFoods.forEach((food) => {
+    const checkbox = document.querySelector(`input[name="foodcode"][value="${CSS.escape(food.food_code)}"]`);
+    if (!checkbox) return;
+    checkbox.checked = true;
+    // Миний нэмэлт: сонгосон хүнсний бүлгийг sidebar дээр задалж харуулна.
+    const groupLi = checkbox.closest(".app-sublist")?.closest("li");
+    groupLi?.querySelector(".app-sublist")?.classList.remove("is-hidden");
+    groupLi?.classList.add("is-active");
+  });
+
+  handleFoodCodeSearch();
+  document.getElementById("search")?.scrollIntoView({ behavior: "smooth" });
+}

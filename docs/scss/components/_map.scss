@@ -1,0 +1,50 @@
+// 2.10.4 — Газрын зураг (components/map.js)
+.map-wrap {
+  width: 100%;
+  overflow: hidden;
+}
+
+#svg-container svg {
+  width: 100%;
+  height: auto;
+  display: block;
+
+  path {
+    fill: #b9e4cf; // Миний өөрчлөлт: дээжгүй аймаг цайвар
+    stroke: #fff;
+    stroke-width: 1;
+    cursor: pointer;
+    transition: fill 0.2s;
+  }
+
+  path.has-data {
+    fill: $primaryColor; // дээжтэй аймаг ногоон
+  }
+
+  path:hover {
+    fill: $secondaryColor;
+  }
+}
+
+// Миний нэмэлт: өнгөний тайлбар
+.map-legend {
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  color: var(--text-soft);
+}
+
+.map-legend-dot {
+  display: inline-block;
+  width: 0.8rem;
+  height: 0.8rem;
+  border-radius: 3px;
+  vertical-align: middle;
+  margin-right: 0.3rem;
+
+  &.has-data {
+    background: $primaryColor;
+  }
+  &.no-data {
+    background: #b9e4cf;
+  }
+}

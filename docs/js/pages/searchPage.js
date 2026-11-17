@@ -5,6 +5,7 @@ import {
   bindSearchEvents,
   renderDefaultTables,
   initNutritionData,
+  applyPendingSelectedFoodsFromOverview,
 } from "../fn/foodSearchEvents.js";
 import { renderSidebarPageLayout } from "../layouts/sidebarPageLayout.js";
 import { bindSidebar, bindMenuListToggle } from "../fn/sidebarEvents.js";
@@ -46,6 +47,7 @@ export async function renderSearchPage() {
     bindMenuListToggle();
     bindSearchEvents();
     bindImageModalEvents(); // дотроо нэг л удаа холбогдоно
+    applyPendingSelectedFoodsFromOverview(); // 2.10.15: Тойм хуудаснаас сонгосон хүнс байвал автоматаар хайна
   } catch (error) {
     app.innerHTML = renderPageLayout({
       content: renderNotification(t("notification.failedToLoadNutritionData"), "danger"),

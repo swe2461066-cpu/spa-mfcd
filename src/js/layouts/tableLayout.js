@@ -1,31 +1,30 @@
 import { safeValue } from "../fn/format.js";
 import { renderNotification } from "./notificationLayout.js";
 
-/* Дахин ашиглагдах хүснэгтийн layout.
-   columns = [{ key, label, render? }]
-   - render(row) өгсөн бол тухайн нүдэнд HTML-ийг шууд гаргана (жишээ нь зургийн тоо бүхий tag).
-   - render байхгүй бол row[key] утгыг XSS-ээс хамгаалж (safeValue) гаргана.
-   Номын 2.8.3-т "render" талбар нэмэгдсэн боловч tableLayout.js дээр дэмжигдээгүй байсныг
-   би энд нэмж засварласан. */
-export function renderTable({ title = "", columns = [], rows = [], emptyMessage = "No data available." }) {
+/* Дахин ашиглагдах хүснэгтийн layout (2.11.3 шинэчлэлт).
+   columns = [{ key, label, render?, thClass?, tdClass? }]
+   - render(row) өгсөн бол нүдэнд HTML-ийг шууд гаргана, үгүй бол row[key]-г safeValue-ээр хамгаалж гаргана.
+   - footer — <tfoot> дотор нийлбэр, хувь зэргийг харуулах мөрүүд. */
+export function renderTable({
+  title = "",
+  columns = [],
+  rows = [],
+  footer = "",
+  emptyMessage = "No data available.",
+  wrapperClass = "table-container app-tbl",
+  tableClass = "table is-striped is-bordered is-hoverable is-fullwidth",
+  titleClass = "subtitle app-subtitle",
+}) {
   return `
-    <div class="table-container app-tbl">
-      ${
-        title
-          ? `
-        <h2 class="subtitle app-subtitle">
-          ${safeValue(title)}
-        </h2>
-      `
-          : ""
-      }
+    <div class="${wrapperClass}">
+      ${title ? `<h2 class="${titleClass}">${safeValue(title)}</h2>` : ""}
       ${
         rows.length
           ? `
-        <table class="table is-striped is-bordered is-hoverable is-fullwidth">
+        <table class="${tableClass}">
           <thead>
             <tr>
-              ${columns.map((col) => `<th>${safeValue(col.label)}</th>`).join("")}
+              ${columns.map((col) => `<th class="${col.thClass || ""}">${safeValue(col.label)}</th>`).join("")}
             </tr>
           </thead>
           <tbody>
@@ -34,13 +33,17 @@ export function renderTable({ title = "", columns = [], rows = [], emptyMessage 
                 (row) => `
               <tr>
                 ${columns
-                  .map((col) => `<td>${typeof col.render === "function" ? col.render(row) : safeValue(row[col.key])}</td>`)
+                  .map((col) => {
+                    const value = typeof col.render === "function" ? col.render(row) : safeValue(row[col.key]);
+                    return `<td class="${col.tdClass || ""}">${value}</td>`;
+                  })
                   .join("")}
               </tr>
             `,
               )
               .join("")}
           </tbody>
+          ${footer ? `<tfoot>${footer}</tfoot>` : ""}
         </table>
       `
           : renderNotification(safeValue(emptyMessage))

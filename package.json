@@ -9,6 +9,8 @@
     "generate:images": "node src/tools/generate-images-json.mjs",
     "convert:enmn": "node ./src/tools/convertNutritionsEnMn.js",
     "unique": "node ./src/tools/searchUniqueField.js",
+    "requirements": "node ./src/tools/buildNutrientRequirements.js",
+    "docs": "node -e \"const fs=require('fs');fs.rmSync('docs',{recursive:true,force:true});fs.cpSync('src','docs',{recursive:true})\"",
     "start": "npx --yes http-server src -p 5500 -c-1"
   },
   "keywords": [

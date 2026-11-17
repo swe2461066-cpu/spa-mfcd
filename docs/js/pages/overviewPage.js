@@ -1,13 +1,37 @@
-import { t } from "../i18n/i18n.js";
+import { renderSplitPageLayout } from "../layouts/splitPageLayout.js";
 import { renderPageLayout } from "../layouts/pageLayout.js";
+import { renderNotification } from "../layouts/notificationLayout.js";
+import { renderMap, bindMapEvents } from "../components/map.js";
+import { renderOverviewText } from "../components/overviewText.js";
+import { renderInfoModal, bindModalEvents } from "../components/infoModal.js";
+import { getNutritions } from "../services/nutritionService.js";
+import { loadTxt } from "../services/txtService.js";
+import { getCurrentLanguage, t } from "../i18n/i18n.js";
 
-export function renderOverviewPage() {
+// 2.10.13 — Тойм хуудас: зүүн талд газрын зураг, баруун талд танилцуулга.
+export async function renderOverviewPage() {
   const app = document.getElementById("app");
-  app.innerHTML = renderPageLayout({
-    id: "overview",
-    title: t("overview.title"),
-    content: `
-      <p>${t("overview.welcome")}</p>
-    `,
-  });
+  app.innerHTML = renderPageLayout({ content: renderNotification(t("notification.loadingData")) });
+
+  try {
+    const nutritionData = await getNutritions();
+    await loadTxt();
+    const lang = getCurrentLanguage();
+
+    app.innerHTML =
+      renderSplitPageLayout({
+        pageId: "overview",
+        pageTitle: t("overview.title"),
+        leftContent: renderMap(),
+        rightContent: renderOverviewText(lang),
+      }) + renderInfoModal();
+
+    bindModalEvents();
+    await bindMapEvents(nutritionData, lang);
+  } catch (error) {
+    app.innerHTML = renderPageLayout({
+      content: renderNotification(t("notification.failedToLoadOverview"), "danger"),
+    });
+    console.error("Failed to render overview page:", error);
+  }
 }

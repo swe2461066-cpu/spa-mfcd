@@ -22854,6 +22854,177 @@ has-background-danger.is-hoverable:active {
   border: none;
 }
 
+.map-wrap {
+  width: 100%;
+  overflow: hidden;
+}
+
+#svg-container svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+#svg-container svg path {
+  fill: #b9e4cf;
+  stroke: #fff;
+  stroke-width: 1;
+  cursor: pointer;
+  transition: fill 0.2s;
+}
+#svg-container svg path.has-data {
+  fill: #2bac73;
+}
+#svg-container svg path:hover {
+  fill: #ff914d;
+}
+
+.map-legend {
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  color: var(--text-soft);
+}
+
+.map-legend-dot {
+  display: inline-block;
+  width: 0.8rem;
+  height: 0.8rem;
+  border-radius: 3px;
+  vertical-align: middle;
+  margin-right: 0.3rem;
+}
+.map-legend-dot.has-data {
+  background: #2bac73;
+}
+.map-legend-dot.no-data {
+  background: #b9e4cf;
+}
+
+.app-overview-text {
+  height: 100%;
+  max-height: 420px;
+  overflow-y: auto;
+  padding-right: 0.5rem;
+}
+
+.app-txt {
+  font-size: clamp(0.8rem, 0.6vw + 0.55rem, 0.95rem);
+  line-height: 1.75;
+  color: var(--text-main);
+  text-align: justify;
+  hyphens: auto;
+  overflow-wrap: break-word;
+}
+
+.app-overview-text::-webkit-scrollbar {
+  width: 6px;
+}
+
+.app-overview-text::-webkit-scrollbar-thumb {
+  background: #9ca3af;
+  border-radius: 999px;
+}
+
+.book-card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.book-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
+}
+
+.book-cover {
+  width: 100%;
+  display: block;
+}
+
+.book-title {
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: rgb(14.3333333333%, 57.3333333333%, 38.3333333333%);
+}
+
+.book-description {
+  flex: 1;
+  text-align: justify;
+  height: 220px;
+  min-height: 220px;
+  max-height: 220px;
+  overflow-y: auto;
+}
+
+.book-footer {
+  justify-content: center;
+  padding: 1rem;
+}
+
+.modal-content.book-pdf-modal-content {
+  width: 88vw;
+  height: 95vh;
+  max-width: none;
+  overflow: hidden;
+}
+
+.book-pdf-frame {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: #fff;
+}
+
+.app-footer {
+  position: relative;
+  z-index: 10;
+  margin-top: 3rem;
+  background: #f8f9fa;
+  border-top: 1px solid #ddd;
+  padding: 2rem 1.5rem;
+}
+.app-footer .title {
+  margin-bottom: 1rem;
+  color: var(--text-soft);
+  font-size: clamp(1rem, 1.5vw, 1.25rem);
+}
+.app-footer ul {
+  list-style: none;
+  padding-left: 0;
+  margin-left: 0;
+}
+.app-footer li {
+  margin-bottom: 0.5rem;
+}
+.app-footer img {
+  height: 1rem;
+  vertical-align: middle;
+  margin-right: 0.5rem;
+}
+.app-footer i.fas {
+  margin-right: 6px;
+  color: #2bac73;
+}
+.app-footer li,
+.app-footer a,
+.app-footer p {
+  font-size: clamp(0.8rem, 1vw, 0.95rem);
+}
+.app-footer a {
+  color: #363636;
+  transition: color 0.2s ease;
+}
+.app-footer a:hover {
+  color: #2bac73;
+}
+
+.app-footer-note {
+  text-align: center;
+  color: var(--text-soft);
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px dashed #ddd;
+}
+
 /* DESKTOP (>=769px) */
 @media screen and (min-width: 769px) {
   .app-mobile-sidebar,
@@ -22884,6 +23055,7 @@ has-background-danger.is-hoverable:active {
 @media screen and (max-width: 768px) {
   .app-shell {
     display: block;
+    height: auto;
   }
   .app-mobile-sidebar {
     display: block;
